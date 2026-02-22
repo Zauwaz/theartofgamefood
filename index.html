@@ -311,38 +311,9 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
   </footer>
 <script src="https://unpkg.com/baguettebox.js@1.11.1/dist/baguetteBox.min.js"></script>
 <script>
-  
-// Inicjalizacja galerii
-baguetteBox.run('.gallery', {
-  captions: true
-});
-
-// 1. Dodawanie hasha przy otwarciu
-document.querySelector('.gallery').addEventListener('click', function(e) {
-  if (e.target.closest('a.item')) {
-    // Używamy replaceState a potem pushState, żeby uniknąć dublowania wpisów
-    setTimeout(() => {
-      location.hash = "gallery";
-    }, 100);
-  }
-});
-
-// 2. Obsługa przycisku Wstecz i ręcznego zamknięcia
-window.addEventListener('hashchange', function() {
-  if (location.hash !== '#gallery') {
-    baguetteBox.close();
-  }
-});
-
-// 3. Jeśli użytkownik zamknie galerię iksem (X) lub Esc, usuwamy hash "po cichu"
-window.addEventListener('click', function(e) {
-  // Sprawdzamy czy kliknięto w tło (overlay) lub przyciski zamykania/nawigacji biblioteki
-  if (e.target.id && e.target.id.includes('baguetteBox-overlay')) {
-     if (location.hash === '#gallery') {
-        history.back();
-     }
-  }
-});
+  baguetteBox.run('.gallery', {
+    captions: true
+  });
 </script>
   <script>
   const dishFilter = document.getElementById('dishFilter');
