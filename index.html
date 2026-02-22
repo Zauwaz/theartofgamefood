@@ -311,9 +311,31 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
   </footer>
 <script src="https://unpkg.com/baguettebox.js@1.11.1/dist/baguetteBox.min.js"></script>
 <script>
-  baguetteBox.run('.gallery', {
-    captions: true
-  });
+// Inicjalizacja galerii
+baguetteBox.run('.gallery', {
+  captions: true
+});
+
+// 1. Gdy galeria się otwiera, dodaj hash do adresu URL
+window.addEventListener('baguetteBox.show', () => {
+  if (window.location.hash !== '#gallery') {
+    history.pushState(null, null, '#gallery');
+  }
+});
+
+// 2. Nasłuchuj kliknięcia przycisku "Wstecz" (zmiana stanu historii)
+window.addEventListener('popstate', () => {
+  if (window.location.hash !== '#gallery') {
+    baguetteBox.close();
+  }
+});
+
+// 3. Jeśli zamkniesz galerię ręcznie przyciskiem X, usuń hash z adresu
+window.addEventListener('baguetteBox.hide', () => {
+  if (window.location.hash === '#gallery') {
+    history.back();
+  }
+});
 </script>
   <script>
   const dishFilter = document.getElementById('dishFilter');
