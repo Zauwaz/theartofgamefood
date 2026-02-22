@@ -317,35 +317,30 @@ baguetteBox.run('.gallery', {
   captions: true
 });
 
-// 1. Wykrywamy kliknięcie w dowolny element galerii
+// 1. Dodawanie hasha przy otwarciu
 document.querySelector('.gallery').addEventListener('click', function(e) {
-  // Sprawdzamy, czy kliknięto w link do zdjęcia lub obrazek wewnątrz niego
   if (e.target.closest('a.item')) {
-    // Małe opóźnienie, żeby upewnić się, że baguetteBox zdążył zareagować
+    // Używamy replaceState a potem pushState, żeby uniknąć dublowania wpisów
     setTimeout(() => {
-      if (window.location.hash !== '#gallery') {
-        history.pushState({ galleryOpen: true }, '', '#gallery');
-      }
+      location.hash = "gallery";
     }, 100);
   }
 });
 
-// 2. Obsługa przycisku "Wstecz"
-window.addEventListener('popstate', function(event) {
-  // Jeśli hash zniknął (użytkownik kliknął wstecz), zamykamy galerię
-  if (window.location.hash !== '#gallery') {
+// 2. Obsługa przycisku Wstecz i ręcznego zamknięcia
+window.addEventListener('hashchange', function() {
+  if (location.hash !== '#gallery') {
     baguetteBox.close();
   }
 });
 
-// 3. Dodatkowo: jeśli zamkniesz galerię krzyżykiem (X), usuwamy hash
-// żeby przycisk "Wstecz" nie był "pusty"
+// 3. Jeśli użytkownik zamknie galerię iksem (X) lub Esc, usuwamy hash "po cichu"
 window.addEventListener('click', function(e) {
-  // baguetteBox używa ID 'baguetteBox-overlay' dla tła galerii
-  if (e.target.id === 'baguetteBox-overlay' || e.target.closest('#close-button')) {
-    if (window.location.hash === '#gallery') {
-      history.back();
-    }
+  // Sprawdzamy czy kliknięto w tło (overlay) lub przyciski zamykania/nawigacji biblioteki
+  if (e.target.id && e.target.id.includes('baguetteBox-overlay')) {
+     if (location.hash === '#gallery') {
+        history.back();
+     }
   }
 });
 </script>
