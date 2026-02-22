@@ -311,29 +311,41 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
   </footer>
 <script src="https://unpkg.com/baguettebox.js@1.11.1/dist/baguetteBox.min.js"></script>
 <script>
+  
 // Inicjalizacja galerii
 baguetteBox.run('.gallery', {
   captions: true
 });
 
-// 1. Gdy galeria się otwiera, dodaj hash do adresu URL
-window.addEventListener('baguetteBox.show', () => {
-  if (window.location.hash !== '#gallery') {
-    history.pushState(null, null, '#gallery');
+// 1. Wykrywamy kliknięcie w dowolny element galerii
+document.querySelector('.gallery').addEventListener('click', function(e) {
+  // Sprawdzamy, czy kliknięto w link do zdjęcia lub obrazek wewnątrz niego
+  if (e.target.closest('a.item')) {
+    // Małe opóźnienie, żeby upewnić się, że baguetteBox zdążył zareagować
+    setTimeout(() => {
+      if (window.location.hash !== '#gallery') {
+        history.pushState({ galleryOpen: true }, '', '#gallery');
+      }
+    }, 100);
   }
 });
 
-// 2. Nasłuchuj kliknięcia przycisku "Wstecz" (zmiana stanu historii)
-window.addEventListener('popstate', () => {
+// 2. Obsługa przycisku "Wstecz"
+window.addEventListener('popstate', function(event) {
+  // Jeśli hash zniknął (użytkownik kliknął wstecz), zamykamy galerię
   if (window.location.hash !== '#gallery') {
     baguetteBox.close();
   }
 });
 
-// 3. Jeśli zamkniesz galerię ręcznie przyciskiem X, usuń hash z adresu
-window.addEventListener('baguetteBox.hide', () => {
-  if (window.location.hash === '#gallery') {
-    history.back();
+// 3. Dodatkowo: jeśli zamkniesz galerię krzyżykiem (X), usuwamy hash
+// żeby przycisk "Wstecz" nie był "pusty"
+window.addEventListener('click', function(e) {
+  // baguetteBox używa ID 'baguetteBox-overlay' dla tła galerii
+  if (e.target.id === 'baguetteBox-overlay' || e.target.closest('#close-button')) {
+    if (window.location.hash === '#gallery') {
+      history.back();
+    }
   }
 });
 </script>
