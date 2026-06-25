@@ -272,13 +272,14 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
   right: .6rem;
   background: var(--accent);
   color: #2e1f14;
-  font-size: .68rem;
+  font-size: .75rem;
   font-weight: 700;
-  letter-spacing: .06em;
-  padding: .2em .55em;
+  letter-spacing: .08em;
+  padding: .25em .6em;
   border-radius: 6px;
   line-height: 1.5;
   pointer-events: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,.45);
 }
 
 /* Mobile filter toggle */
@@ -616,16 +617,17 @@ function applySort(sortType) {
       a.querySelector('.info p').textContent.trim()
        .localeCompare(b.querySelector('.info p').textContent.trim())
     );
-  } else if (sortType === 'oldest') {
-    sorted = [...items].sort((a, b) => {
-      const year = el => { const m = el.querySelector('.info p:last-of-type').textContent.match(/\d{4}/); return m ? +m[0] : 9999; };
-      return year(a) - year(b);
-    });
-  } else if (sortType === 'newest') {
-    sorted = [...items].sort((a, b) => {
-      const year = el => { const m = el.querySelector('.info p:last-of-type').textContent.match(/\d{4}/); return m ? +m[0] : 0; };
-      return year(b) - year(a);
-    });
+  } else if (sortType === 'oldest' || sortType === 'newest') {
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const playedKey = el => {
+      const text = el.querySelector('.info p:last-of-type').textContent;
+      const yearMatch = text.match(/\d{4}/);
+      const year = yearMatch ? +yearMatch[0] : (sortType === 'oldest' ? 9999 : 0);
+      const monthMatch = MONTHS.findIndex(m => text.includes(m));
+      const month = monthMatch >= 0 ? monthMatch + 1 : 0;
+      return year * 12 + month;
+    };
+    sorted = [...items].sort((a, b) => sortType === 'oldest' ? playedKey(a) - playedKey(b) : playedKey(b) - playedKey(a));
   } else {
     sorted = [...originalOrder];
   }
