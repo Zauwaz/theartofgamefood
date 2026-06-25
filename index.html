@@ -149,7 +149,7 @@
           @media (min-width: 768px) {
   .filters {
     width: auto;
-    grid-template-columns: minmax(160px, 190px) minmax(170px, 210px) auto;
+    grid-template-columns: repeat(3, minmax(170px, 210px)) auto;
     justify-content: start;
     align-items: end;
     max-width: 820px;
@@ -262,6 +262,115 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       font-size: 0.9rem;
       color: #aaa;
     }
+
+/* New badge */
+.item[data-new] { position: relative; }
+.item[data-new]::after {
+  content: "NEW";
+  position: absolute;
+  top: .6rem;
+  right: .6rem;
+  background: var(--accent);
+  color: #2e1f14;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  padding: .2em .55em;
+  border-radius: 6px;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+/* Mobile filter toggle */
+.filter-bar { display: none; }
+.filter-toggle-btn { display: none; }
+.result-count-mobile { display: none; }
+
+@media (max-width: 767px) {
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding: .65rem 0 .4rem;
+  }
+  .filter-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015)), #2a1c13;
+    color: #f7e6c8;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: .55rem .85rem;
+    font: inherit;
+    font-size: .9rem;
+    cursor: pointer;
+    box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 4px 10px rgba(0,0,0,.14);
+    transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+    flex-shrink: 0;
+  }
+  .filter-toggle-btn:hover,
+  .filter-toggle-btn.is-open {
+    border-color: var(--accent);
+    background-color: #332317;
+    box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 6px 16px rgba(0,0,0,.18), 0 0 0 2px var(--accent-soft);
+  }
+  .filter-toggle-btn:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .filter-toggle-chevron {
+    width: 0;
+    height: 0;
+    border-left: .32rem solid transparent;
+    border-right: .32rem solid transparent;
+    border-top: .38rem solid var(--accent);
+    flex-shrink: 0;
+    transition: transform .2s ease;
+  }
+  .filter-toggle-btn.is-open .filter-toggle-chevron {
+    transform: rotate(180deg);
+  }
+  .filter-active-badge {
+    display: none;
+    background: var(--accent);
+    color: #2e1f14;
+    border-radius: 10px;
+    font-size: .72rem;
+    font-weight: 700;
+    padding: .1em .45em;
+    line-height: 1.4;
+  }
+  .filter-active-badge.visible {
+    display: inline;
+  }
+  .result-count-mobile {
+    display: block;
+    color: #bba98f;
+    font-size: .85rem;
+    margin: 0;
+    white-space: nowrap;
+  }
+  .result-count-mobile strong { color: #e1c28c; }
+  .result-count { display: none; }
+  .filters {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .filter-sort { grid-column: 1 / -1; }
+  .filters-panel {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .28s ease;
+    padding-top: 0;
+  }
+  .filters-panel.is-open {
+    max-height: 400px;
+    padding-top: .6rem;
+  }
+}
   </style>
 </head>
 <body>
@@ -271,36 +380,60 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
   </header>
   <main>
     <div class="collection-tools">
-    <div class="filters">
-  <div class="filter">
-    <span class="filter-label" id="dishFilterLabel">Meal type</span>
-    <div class="custom-select" data-filter="dish" data-value="all">
-      <button type="button" class="select-button" id="dishFilter" aria-haspopup="listbox" aria-expanded="false" aria-controls="dishFilterOptions" aria-labelledby="dishFilterLabel dishFilterValue">
-        <span id="dishFilterValue">All</span>
-      </button>
-      <div class="select-menu" id="dishFilterOptions" role="listbox" aria-labelledby="dishFilterLabel">
-        <button type="button" class="select-option" role="option" aria-selected="true" data-value="all">All</button>
-        <button type="button" class="select-option" role="option" aria-selected="false" data-value="sweet">Sweet</button>
-        <button type="button" class="select-option" role="option" aria-selected="false" data-value="savory">Savory</button>
+      <div class="filter-bar">
+        <button type="button" class="filter-toggle-btn" id="filterToggle" aria-expanded="false" aria-controls="filtersPanel">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-4 1.5A.5.5 0 0 1 5 15V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/></svg>
+          <span>Filter</span>
+          <span class="filter-active-badge" id="filterActiveBadge" aria-hidden="true"></span>
+          <span class="filter-toggle-chevron"></span>
+        </button>
+        <p class="result-count-mobile" id="resultCountMobile" aria-live="polite"></p>
       </div>
-    </div>
-  </div>
-  <div class="filter">
-    <span class="filter-label" id="visualFilterLabel">Animation style</span>
-    <div class="custom-select" data-filter="visual" data-value="all">
-      <button type="button" class="select-button" id="visualFilter" aria-haspopup="listbox" aria-expanded="false" aria-controls="visualFilterOptions" aria-labelledby="visualFilterLabel visualFilterValue">
-        <span id="visualFilterValue">All</span>
-      </button>
-      <div class="select-menu" id="visualFilterOptions" role="listbox" aria-labelledby="visualFilterLabel">
-        <button type="button" class="select-option" role="option" aria-selected="true" data-value="all">All</button>
-        <button type="button" class="select-option" role="option" aria-selected="false" data-value="2d">2D</button>
-        <button type="button" class="select-option" role="option" aria-selected="false" data-value="3d">3D</button>
+      <div class="filters-panel" id="filtersPanel">
+        <div class="filters">
+          <div class="filter">
+            <span class="filter-label" id="dishFilterLabel">Meal type</span>
+            <div class="custom-select" data-filter="dish" data-value="all">
+              <button type="button" class="select-button" id="dishFilter" aria-haspopup="listbox" aria-expanded="false" aria-controls="dishFilterOptions" aria-labelledby="dishFilterLabel dishFilterValue">
+                <span id="dishFilterValue">All</span>
+              </button>
+              <div class="select-menu" id="dishFilterOptions" role="listbox" aria-labelledby="dishFilterLabel">
+                <button type="button" class="select-option" role="option" aria-selected="true" data-value="all">All</button>
+                <button type="button" class="select-option" role="option" aria-selected="false" data-value="sweet">Sweet</button>
+                <button type="button" class="select-option" role="option" aria-selected="false" data-value="savory">Savory</button>
+              </div>
+            </div>
+          </div>
+          <div class="filter">
+            <span class="filter-label" id="visualFilterLabel">Animation style</span>
+            <div class="custom-select" data-filter="visual" data-value="all">
+              <button type="button" class="select-button" id="visualFilter" aria-haspopup="listbox" aria-expanded="false" aria-controls="visualFilterOptions" aria-labelledby="visualFilterLabel visualFilterValue">
+                <span id="visualFilterValue">All</span>
+              </button>
+              <div class="select-menu" id="visualFilterOptions" role="listbox" aria-labelledby="visualFilterLabel">
+                <button type="button" class="select-option" role="option" aria-selected="true" data-value="all">All</button>
+                <button type="button" class="select-option" role="option" aria-selected="false" data-value="2d">2D</button>
+                <button type="button" class="select-option" role="option" aria-selected="false" data-value="3d">3D</button>
+              </div>
+            </div>
+          </div>
+          <div class="filter filter-sort">
+            <span class="filter-label" id="sortFilterLabel">Sort by</span>
+            <div class="custom-select" data-filter="sort" data-value="featured">
+              <button type="button" class="select-button" id="sortFilter" aria-haspopup="listbox" aria-expanded="false" aria-controls="sortFilterOptions" aria-labelledby="sortFilterLabel sortFilterValue">
+                <span id="sortFilterValue">Featured</span>
+              </button>
+              <div class="select-menu" id="sortFilterOptions" role="listbox" aria-labelledby="sortFilterLabel">
+                <button type="button" class="select-option" role="option" aria-selected="true" data-value="featured">Featured</button>
+                <button type="button" class="select-option" role="option" aria-selected="false" data-value="az">Game A–Z</button>
+                <button type="button" class="select-option" role="option" aria-selected="false" data-value="oldest">Played: oldest first</button>
+                <button type="button" class="select-option" role="option" aria-selected="false" data-value="newest">Played: newest first</button>
+              </div>
+            </div>
+          </div>
+          <p class="result-count" id="resultCount" aria-live="polite"></p>
+        </div>
       </div>
-    </div>
-  </div>
-    <p class="result-count" id="resultCount" aria-live="polite"></p>
-  
-</div>
     </div>
     <section class="gallery">
       <a href="img/Hogwarts_StrawberryCake.jpg" class="item" data-lightbox data-dish="sweet" data-visual="3d">                  
@@ -367,7 +500,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
         <p>First played: June 2020</p>
       </div>
     </a>
-               <a href="img/SplitFiction_HotDog.png" class="item" data-lightbox data-dish="savory" data-visual="3d"> 
+               <a href="img/SplitFiction_HotDog.png" class="item" data-lightbox data-new data-dish="savory" data-visual="3d"> 
       <img src="img/SplitFiction_HotDog.png" alt="Hot Dog from Split Fiction" loading="lazy">
       <div class="info">
         <h2>Hot Dog</h2>
@@ -458,14 +591,55 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
 <script src="https://unpkg.com/baguettebox.js@1.11.1/dist/baguetteBox.min.js"></script>
 <script>
   baguetteBox.run('.gallery', {
-    captions: true
+    captions: true,
+    afterHide: function() {
+      if (!window._lbBackNav) {
+        history.replaceState(null, '', location.href.split('#')[0]);
+      }
+      window._lbBackNav = false;
+    }
   });
 </script>
   <script>
 const customSelects = Array.from(document.querySelectorAll('.custom-select'));
 const resultCount = document.getElementById('resultCount');
+const resultCountMobile = document.getElementById('resultCountMobile');
 const emptyState = document.getElementById('emptyState');
 const items = Array.from(document.querySelectorAll('.gallery .item'));
+const originalOrder = [...items];
+const gallery = document.querySelector('.gallery');
+
+function applySort(sortType) {
+  let sorted;
+  if (sortType === 'az') {
+    sorted = [...items].sort((a, b) =>
+      a.querySelector('.info p').textContent.trim()
+       .localeCompare(b.querySelector('.info p').textContent.trim())
+    );
+  } else if (sortType === 'oldest') {
+    sorted = [...items].sort((a, b) => {
+      const year = el => { const m = el.querySelector('.info p:last-of-type').textContent.match(/\d{4}/); return m ? +m[0] : 9999; };
+      return year(a) - year(b);
+    });
+  } else if (sortType === 'newest') {
+    sorted = [...items].sort((a, b) => {
+      const year = el => { const m = el.querySelector('.info p:last-of-type').textContent.match(/\d{4}/); return m ? +m[0] : 0; };
+      return year(b) - year(a);
+    });
+  } else {
+    sorted = [...originalOrder];
+  }
+  sorted.forEach(el => gallery.insertBefore(el, emptyState));
+}
+const filterToggle = document.getElementById('filterToggle');
+const filtersPanel = document.getElementById('filtersPanel');
+const filterActiveBadge = document.getElementById('filterActiveBadge');
+
+filterToggle.addEventListener('click', () => {
+  const isOpen = filtersPanel.classList.toggle('is-open');
+  filterToggle.classList.toggle('is-open', isOpen);
+  filterToggle.setAttribute('aria-expanded', String(isOpen));
+});
 
 function closeSelect(select) {
   select.classList.remove('is-open');
@@ -587,11 +761,49 @@ function applyFilters() {
     }
   });
 
-  resultCount.innerHTML = `Showing <strong>${visibleCount}</strong> of <strong>${items.length}</strong> meals`;
+  const countHTML = `Showing <strong>${visibleCount}</strong> of <strong>${items.length}</strong> meals`;
+  resultCount.innerHTML = countHTML;
+  resultCountMobile.innerHTML = countHTML;
   emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+
+  applySort(getFilterValue('sort'));
+
+  const activeCount = [getFilterValue('dish'), getFilterValue('visual')].filter(v => v !== 'all').length;
+  filterActiveBadge.textContent = activeCount;
+  filterActiveBadge.classList.toggle('visible', activeCount > 0);
 }
 
 applyFilters();
+
+// Hash-based lightbox navigation
+function getItemSlug(el) {
+  return el.getAttribute('href').replace(/^img\//, '').replace(/\.[^.]+$/, '');
+}
+
+items.forEach(function(el) {
+  el.addEventListener('click', function() {
+    if (window._lbHashOpen) return;
+    history.pushState(null, '', '#' + getItemSlug(el));
+  });
+});
+
+window.addEventListener('popstate', function() {
+  if (!location.hash) {
+    window._lbBackNav = true;
+    var closeBtn = document.querySelector('#close-button');
+    if (closeBtn) closeBtn.click();
+  }
+});
+
+var initialHash = decodeURIComponent(location.hash.slice(1));
+if (initialHash) {
+  var hashTarget = items.find(function(el) { return getItemSlug(el) === initialHash; });
+  if (hashTarget) {
+    window._lbHashOpen = true;
+    hashTarget.click();
+    window._lbHashOpen = false;
+  }
+}
 </script>
 </body>
 </html>
