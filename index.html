@@ -124,9 +124,13 @@
   text-align: left;
   cursor: pointer;
 }
-.select-option:hover,
+.select-option:hover {
+  background: var(--accent-soft);
+  color: #fff6df;
+}
 .select-option:focus-visible {
-  outline: none;
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
   background: var(--accent-soft);
   color: #fff6df;
 }
@@ -249,7 +253,7 @@ footer a:focus-visible {
 body {
 background: linear-gradient(to bottom, #2e1f14, #3b281a);
 }
-  a:link {
+  a:link, a:visited {
   color: #f4f4f4;
   text-decoration: none;
 }
@@ -372,6 +376,14 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
     padding-top: .6rem;
   }
 }
+@media (prefers-reduced-motion: reduce) {
+  .item, .select-button, .filter-toggle-btn, .filters-panel, .filter-toggle-chevron, .select-button::after {
+    transition: none;
+  }
+  .item:hover {
+    transform: none;
+  }
+}
   </style>
 </head>
 <body>
@@ -436,7 +448,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
         </div>
       </div>
     </div>
-    <section class="gallery">
+    <section class="gallery" aria-label="Game food gallery">
       <a href="img/Hogwarts_StrawberryCake.jpg" class="item" data-lightbox data-dish="sweet" data-visual="3d">                  
   <img src="img/Hogwarts_StrawberryCake.jpg" alt="Strawberry Cake from Hogwarts Legacy">
       <div class="info">
