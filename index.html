@@ -374,7 +374,12 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
   .filters-panel.is-open {
     max-height: 400px;
     padding-top: .6rem;
+    /* after the open animation, let dropdown menus extend past the panel */
+    animation: filters-panel-unclip 0s .28s forwards;
   }
+}
+@keyframes filters-panel-unclip {
+  to { overflow: visible; }
 }
 @media (prefers-reduced-motion: reduce) {
   .item, .select-button, .filter-toggle-btn, .filters-panel, .filter-toggle-chevron, .select-button::after {
