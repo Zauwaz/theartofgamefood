@@ -5,6 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Art of Game Food</title>
+  <meta name="description" content="A collection of the most memorable, aesthetic meals from video games — from Hogwarts Legacy to Zelda, Valheim and The Sims.">
+  <link rel="canonical" href="https://zauwaz.github.io/theartofgamefood/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zauwaz.github.io/theartofgamefood/">
+  <meta property="og:title" content="The Art of Game Food">
+  <meta property="og:description" content="A collection of the most memorable, aesthetic meals from video games.">
+  <meta property="og:image" content="https://zauwaz.github.io/theartofgamefood/img/Hogwarts_StrawberryCake.jpg">
+  <meta property="og:image:width" content="1259">
+  <meta property="og:image:height" content="1007">
+  <meta property="og:image:alt" content="Strawberry Cake from Hogwarts Legacy">
+  <meta name="twitter:card" content="summary_large_image">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.css" />
   <!-- 1 rem = 16px -->
@@ -15,6 +26,7 @@
       --accent-soft: rgba(240, 179, 90, 0.10);
       --accent-border: rgba(240, 179, 90, 0.24);
       --panel-border: #6b4e39;
+      --control-border: #90705a;
     }
 
     * {
@@ -67,7 +79,7 @@
   gap: .7rem;
   background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015)), #2a1c13;
   color: #f7e6c8;
-  border: 1px solid var(--panel-border);
+  border: 1px solid var(--control-border);
   border-radius: 8px;
   padding: .62rem .85rem;
   font: inherit;
@@ -234,7 +246,7 @@ footer a:focus-visible {
 }
 .info p:last-of-type {
   font-size: 0.78rem;
-  color: #a99986;
+  color: #b3a28e;
   margin: auto 0 0;
   padding-top: .85rem;
 }
@@ -266,6 +278,10 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       font-size: 0.9rem;
       color: #aaa;
     }
+footer a:link, footer a:visited {
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
 
 /* New badge */
 .item[data-new] { position: relative; }
@@ -305,7 +321,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
     gap: .5rem;
     background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015)), #2a1c13;
     color: #f7e6c8;
-    border: 1px solid var(--panel-border);
+    border: 1px solid var(--control-border);
     border-radius: 8px;
     padding: .55rem .85rem;
     font: inherit;
@@ -368,11 +384,15 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
   .filters-panel {
     overflow: hidden;
     max-height: 0;
-    transition: max-height .28s ease;
+    /* hidden controls must not be reachable by keyboard or screen readers */
+    visibility: hidden;
+    transition: max-height .28s ease, visibility 0s linear .28s;
     padding-top: 0;
   }
   .filters-panel.is-open {
     max-height: 400px;
+    visibility: visible;
+    transition: max-height .28s ease, visibility 0s;
     padding-top: .6rem;
     /* after the open animation, let dropdown menus extend past the panel */
     animation: filters-panel-unclip 0s .28s forwards;
@@ -423,7 +443,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
             </div>
           </div>
           <div class="filter">
-            <span class="filter-label" id="visualFilterLabel">Animation style</span>
+            <span class="filter-label" id="visualFilterLabel">Art style</span>
             <div class="custom-select" data-filter="visual" data-value="all">
               <button type="button" class="select-button" id="visualFilter" aria-haspopup="listbox" aria-expanded="false" aria-controls="visualFilterOptions" aria-labelledby="visualFilterLabel visualFilterValue">
                 <span id="visualFilterValue">All</span>
@@ -455,7 +475,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
     </div>
     <section class="gallery" aria-label="Game food gallery">
       <a href="img/Hogwarts_StrawberryCake.jpg" class="item" data-lightbox data-dish="sweet" data-visual="3d">                  
-  <img src="img/Hogwarts_StrawberryCake.jpg" alt="Strawberry Cake from Hogwarts Legacy">
+  <img src="img/Hogwarts_StrawberryCake.jpg" alt="" width="1259" height="1007">
       <div class="info">
         <h2>Strawberry Cake</h2>
         <p>Hogwarts Legacy</p>
@@ -463,7 +483,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
     </a>
   <a href="img/Overwatch_RikimaruRamen2.jpg" class="item" data-lightbox data-dish="savory" data-visual="3d">                  
-  <img src="img/Overwatch_RikimaruRamen2.jpg" alt="Rikimaru Ramen from Overwatch">
+  <img src="img/Overwatch_RikimaruRamen2.jpg" alt="" width="715" height="572">
       <div class="info">
         <h2>Rikimaru Ramen</h2>
         <p>Overwatch</p>
@@ -471,7 +491,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
     </a>
       <a href="img/Cake_Fortnite.jpg" class="item" data-lightbox data-dish="sweet" data-visual="3d">                  
-  <img src="img/Cake_Fortnite.jpg" alt="Cake from Fortnite">
+  <img src="img/Cake_Fortnite.jpg" alt="" width="1039" height="831">
       <div class="info">
         <h2>Cake</h2>
         <p>Fortnite</p>
@@ -479,15 +499,15 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
     </a>
     <a href="img/ClairObscur_Cake.jpg" class="item" data-lightbox data-new data-dish="sweet" data-visual="3d">
-      <img src="img/ClairObscur_Cake.jpg" alt="Cake from Clair Obscur: Expedition 33">
+      <img src="img/ClairObscur_Cake.jpg" alt="" width="1112" height="890">
       <div class="info">
         <h2>Cake</h2>
         <p>Clair Obscur: Expedition 33</p>
         <p>First played: May 2026</p>
       </div>
     </a>
-        <a href="img/TheSims2_Pizza.png" class="item" data-lightbox data-dish="savory" data-visual="3d"> 
-      <img src="img/TheSims2_Pizza.png" alt="Pizza from The Sims 2">
+        <a href="img/TheSims2_Pizza.jpg" class="item" data-lightbox data-dish="savory" data-visual="3d"> 
+      <img src="img/TheSims2_Pizza.jpg" alt="" width="961" height="770">
       <div class="info">
         <h2>Pizza</h2>
         <p>The Sims 2</p>
@@ -495,7 +515,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
     </a>
          <a href="img/BaldursGate3_BerryTart2.jpg" class="item" data-lightbox data-dish="sweet" data-visual="3d">
-      <img src="img/BaldursGate3_BerryTart2.jpg" alt="Berry Tart from Baldur's Gate 3">
+      <img src="img/BaldursGate3_BerryTart2.jpg" alt="" width="779" height="623">
       <div class="info">
         <h2>Berry Tart</h2>
         <p>Baldur's Gate 3</p>
@@ -503,7 +523,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
     </a>
       <a href="img/Valheim_CookedEgg.jpg" class="item" data-lightbox data-dish="savory" data-visual="3d"> 
-      <img src="img/Valheim_CookedEgg.jpg" alt="Cooked Egg from Valheim" loading="lazy">
+      <img src="img/Valheim_CookedEgg.jpg" alt="" width="1101" height="881" loading="lazy">
       <div class="info">
         <h2>Cooked Egg</h2>
         <p>Valheim</p>
@@ -511,15 +531,15 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
     </a>
          <a href="img/World_of_Warcraft_ChocolateCake.jpg" class="item" data-lightbox data-dish="sweet" data-visual="3d"> 
-      <img src="img/World_of_Warcraft_ChocolateCake.jpg" alt="Chocolate Cake from World of Warcraft" loading="lazy">
+      <img src="img/World_of_Warcraft_ChocolateCake.jpg" alt="" width="549" height="440" loading="lazy">
       <div class="info">
         <h2>Chocolate Cake</h2>
         <p>World of Warcraft</p>
         <p>First played: June 2020</p>
       </div>
     </a>
-               <a href="img/SplitFiction_HotDog.png" class="item" data-lightbox data-dish="savory" data-visual="3d"> 
-      <img src="img/SplitFiction_HotDog.png" alt="Hot Dog from Split Fiction" loading="lazy">
+               <a href="img/SplitFiction_HotDog.jpg" class="item" data-lightbox data-dish="savory" data-visual="3d"> 
+      <img src="img/SplitFiction_HotDog.jpg" alt="" width="1152" height="920" loading="lazy">
       <div class="info">
         <h2>Hot Dog</h2>
         <p>Split Fiction</p>
@@ -527,15 +547,15 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
     </a>
       <a href="img/Gothic_Cheese.jpg" class="item" data-lightbox data-dish="savory" data-visual="3d"> 
-      <img src="img/Gothic_Cheese.jpg" alt="Cheese from Gothic" loading="lazy">
+      <img src="img/Gothic_Cheese.jpg" alt="" width="997" height="798" loading="lazy">
       <div class="info">
         <h2>Cheese</h2>
         <p>Gothic</p>
         <p>First played: ~2018</p>
       </div>
     </a>
-      <a href="img/Fortnite_Pizza.png" class="item" data-lightbox data-dish="savory" data-visual="3d"> 
-      <img src="img/Fortnite_Pizza.png" alt="Pizza from Fortnite" loading="lazy">
+      <a href="img/Fortnite_Pizza.jpg" class="item" data-lightbox data-dish="savory" data-visual="3d"> 
+      <img src="img/Fortnite_Pizza.jpg" alt="" width="1152" height="928" loading="lazy">
       <div class="info">
         <h2>Pizza</h2>
         <p>Fortnite</p>
@@ -543,7 +563,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
     </a>
     <a href="img/ReadyorNot_Donuts.jpg" class="item" data-lightbox data-dish="sweet" data-visual="3d"> 
-      <img src="img/ReadyorNot_Donuts.jpg" alt="Donuts from Ready or Not" loading="lazy">
+      <img src="img/ReadyorNot_Donuts.jpg" alt="" width="1026" height="821" loading="lazy">
       <div class="info">
         <h2>Donuts</h2>
         <p>Ready or Not</p>
@@ -551,7 +571,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
     </a>
           <a href="img/Minecraft_Cake.png" class="item" data-lightbox data-dish="sweet" data-visual="3d">
-      <img src="img/Minecraft_Cake.png" alt="Cake from Minecraft" loading="lazy">
+      <img src="img/Minecraft_Cake.png" alt="" width="1545" height="1236" loading="lazy">
       <div class="info">
         <h2>Cake</h2>
         <p>Minecraft</p>
@@ -559,7 +579,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
      </a>
       <a href="img/ZeldaToTK_Cheesecake.jpg" class="item" data-lightbox data-dish="sweet" data-visual="2d">
-      <img src="img/ZeldaToTK_Cheesecake.jpg" alt="Cheesecake from The Legend of Zelda: Tears of the Kingdom" loading="lazy">
+      <img src="img/ZeldaToTK_Cheesecake.jpg" alt="" width="886" height="710" loading="lazy">
       <div class="info">
         <h2>Cheesecake</h2>
         <p>The Legend of Zelda: Tears of the Kingdom</p>
@@ -567,15 +587,15 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
     </a>
           <a href="img/Valheim_MushroomOmelette.jpg" class="item" data-lightbox data-dish="savory" data-visual="3d">                  
-  <img src="img/Valheim_MushroomOmelette.jpg" alt="Mushroom Omelette from Valheim" loading="lazy">
+  <img src="img/Valheim_MushroomOmelette.jpg" alt="" width="895" height="717" loading="lazy">
       <div class="info">
         <h2>Mushroom Omelette</h2>
         <p>Valheim</p>
         <p>First played: October 2021</p>
       </div>
     </a>  
-      <a href="img/Baldurs_WaterdhavianCheeseWheel.png" class="item" data-lightbox data-dish="savory" data-visual="3d">  
-      <img src="img/Baldurs_WaterdhavianCheeseWheel.png" alt="Waterdhavian Cheese Wheel from Baldur's Gate 3" loading="lazy">
+      <a href="img/Baldurs_WaterdhavianCheeseWheel.jpg" class="item" data-lightbox data-dish="savory" data-visual="3d">  
+      <img src="img/Baldurs_WaterdhavianCheeseWheel.jpg" alt="" width="1409" height="1128" loading="lazy">
       <div class="info">
         <h2>Waterdhavian Cheese Wheel</h2>
        <p>Baldur's Gate 3</p>
@@ -583,7 +603,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
           </a>
     <a href="img/Valheim_LoxPie.jpg" class="item" data-lightbox data-dish="savory" data-visual="3d"> 
-      <img src="img/Valheim_LoxPie.jpg" alt="Lox Pie from Valheim" loading="lazy">
+      <img src="img/Valheim_LoxPie.jpg" alt="" width="837" height="670" loading="lazy">
       <div class="info">
         <h2>Lox Pie</h2>
         <p>Valheim</p>
@@ -591,7 +611,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
             </a>
           <a href="img/Stardew_Chocolate_Cake.jpg" class="item" data-lightbox data-dish="sweet" data-visual="2d">                  
-  <img src="img/Stardew_Chocolate_Cake.jpg" alt="Chocolate Cake from Stardew Valley" loading="lazy">
+  <img src="img/Stardew_Chocolate_Cake.jpg" alt="" width="1118" height="894" loading="lazy">
       <div class="info">
         <h2>Chocolate Cake</h2>
         <p>Stardew Valley</p>
@@ -599,7 +619,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
     </a>
     <a href="img/Roblox_Cheezburger_2.jpg" class="item" data-lightbox data-dish="savory" data-visual="3d">
-      <img src="img/Roblox_Cheezburger_2.jpg" alt="Cheezburger from Roblox" loading="lazy">
+      <img src="img/Roblox_Cheezburger_2.jpg" alt="" width="800" height="640" loading="lazy">
       <div class="info">
         <h2>Cheezburger</h2>
         <p>Roblox</p>
@@ -607,7 +627,7 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       </div>
     </a>
     <a href="img/ApplePie_ZeldaToTK2.jpg" class="item" data-lightbox data-dish="sweet" data-visual="2d">
-      <img src="img/ApplePie_ZeldaToTK2.jpg" alt="Apple Pie from The Legend of Zelda: Breath of the Wild" loading="lazy">
+      <img src="img/ApplePie_ZeldaToTK2.jpg" alt="" width="859" height="687" loading="lazy">
       <div class="info">
         <h2>Apple Pie</h2>
         <p>The Legend of Zelda: Breath of the Wild</p>
@@ -623,9 +643,20 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
     Do you know some other games with cool food? <a href="https://s.team/p/cfcq-gqjp/GKVKJWTB">Contact me on Steam</a>
   </footer>
 <script src="https://unpkg.com/baguettebox.js@1.11.1/dist/baguetteBox.min.js"></script>
-<script>
+  <script>
+function escapeHTML(text) {
+  return text.replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+}
+
+// Lightbox is rebuilt after every filter/sort change so its arrows follow the visible cards in their current order
+function runLightbox() {
   baguetteBox.run('.gallery', {
-    captions: true,
+    ignoreClass: 'is-filtered-out',
+    captions: function(element) {
+      const dish = element.querySelector('.info h2').textContent.trim();
+      const game = element.querySelector('.info p').textContent.trim();
+      return escapeHTML(dish + ' · ' + game);
+    },
     afterHide: function() {
       if (!window._lbBackNav) {
         history.replaceState(null, '', location.href.split('#')[0]);
@@ -633,8 +664,8 @@ background: linear-gradient(to bottom, #2e1f14, #3b281a);
       window._lbBackNav = false;
     }
   });
-</script>
-  <script>
+}
+
 const customSelects = Array.from(document.querySelectorAll('.custom-select'));
 const resultCount = document.getElementById('resultCount');
 const resultCountMobile = document.getElementById('resultCountMobile');
@@ -737,7 +768,7 @@ customSelects.forEach(select => {
       focusOption(options, selectedIndex === -1 ? 0 : selectedIndex);
     }
 
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' || event.key === 'Tab') {
       closeSelect(select);
     }
   });
@@ -762,6 +793,12 @@ customSelects.forEach(select => {
       }
 
       if (event.key === 'Escape') {
+        closeSelect(select);
+        button.focus();
+      }
+
+      if (event.key === 'Tab') {
+        // move focus back to the button first, so Tab continues from the widget instead of a hidden option
         closeSelect(select);
         button.focus();
       }
@@ -790,6 +827,7 @@ function applyFilters() {
     const isVisible = okDish && okVisual;
 
     el.style.display = isVisible ? '' : 'none';
+    el.classList.toggle('is-filtered-out', !isVisible);
 
     if (isVisible) {
       visibleCount += 1;
@@ -806,6 +844,10 @@ function applyFilters() {
   const activeCount = [getFilterValue('dish'), getFilterValue('visual')].filter(v => v !== 'all').length;
   filterActiveBadge.textContent = activeCount;
   filterActiveBadge.classList.toggle('visible', activeCount > 0);
+  // the badge is visual only, so screen readers get the count from the button label
+  filterToggle.setAttribute('aria-label', activeCount > 0 ? `Filter, ${activeCount} active` : 'Filter');
+
+  runLightbox();
 }
 
 applyFilters();
